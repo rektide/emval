@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>emval WASM Test</title>
+</head>
+<body>
+    <h1>emval WASM Email Validation Test</h1>
+    <input type="text" id="emailInput" placeholder="Enter email address" />
+    <button onclick="validateEmail()">Validate</button>
+    <div id="result"></div>
+
+    <script type="module">
+        import init, { validate_email_wasm } from './pkg/emval.js';
+
+        async function run() {
+            await init();
+            console.log('emval WASM loaded successfully');
+        }
+
+        async function validateEmail() {
+            const email = document.getElementById('emailInput').value;
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                const normalized = validate_email_wasm(email);
+                resultDiv.innerHTML = `<span style="color: green">✅ Valid email: ${normalized}</span>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<span style="color: red">❌ Invalid email: ${error}</span>`;
+            }
+        }
+
+        run();
+    </script>
+</body>
+</html>
